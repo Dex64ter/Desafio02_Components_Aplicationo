@@ -21,17 +21,21 @@ interface MovieProps {
 
 interface ContentProps {
   selectedGenreId: number;
-  selectedGenre: GenreResponseProps;
 }
 
-export function Content( { selectedGenreId, selectedGenre } : ContentProps) {
+export function Content( props : ContentProps) {
   const [movies, setMovies] = useState<MovieProps[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
   
   useEffect(() => {
-    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
+    api.get<MovieProps[]>(`movies/?Genre_id=${props.selectedGenreId}`).then(response => {
       setMovies(response.data);
     });
-  }, [selectedGenreId]);
+    api.get<GenreResponseProps>(`genres/${props.selectedGenreId}`).then(response => {
+      setSelectedGenre(response.data);
+    })
+  }, [props.selectedGenreId]);
+
 
   return (
     <div className="container">

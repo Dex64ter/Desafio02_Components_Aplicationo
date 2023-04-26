@@ -20,14 +20,7 @@ interface GenreResponseProps {
 }
 
 export function App() {
-  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
   const [selectedGenreId, setSelectedGenreId] = useState(1);
-
-  useEffect(() => {
-    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
-      setSelectedGenre(response.data);
-    })
-  }, [selectedGenreId]);
 
   function handleClickButton(id: number) {
     setSelectedGenreId(id);
@@ -36,7 +29,7 @@ export function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <SideBar selectedGenreId={selectedGenreId} handleClickButton={handleClickButton}/>
-      <Content selectedGenre={selectedGenre} selectedGenreId={selectedGenreId}/>
+      <Content selectedGenreId={selectedGenreId}/>
     </div>
   )
 }
